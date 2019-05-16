@@ -1,0 +1,33 @@
+from PIL import Image
+import numpy as np	
+import os
+def main():
+    path = 'dev_dataset/'
+    files = get_files(path)
+    for file in files:
+        files.remove(file)
+        file_for_remove = []
+        for c_file in files:
+            res = compare(path+file, path+c_file)
+            if (res >= 0.90):
+                print(file, c_file)    
+                
+def get_files(path):    
+    files = []
+    for file in os.listdir(path):
+        files.append(file)
+    return files
+    
+def compare(img1, img2):
+    image1 = Image.open(img1).convert('RGB').resize((128, 128), Image.ANTIALIAS)
+    image2 = Image.open(img2).convert('RGB').resize((128, 128), Image.ANTIALIAS)
+    im_for_compr1 = image1.histogram()
+    im_for_compr2 = image2.histogram()
+    h1 = im_for_compr1/np.sqrt(np.sum(np.square(im_for_compr1, dtype='int64')))
+    h2 = im_for_compr2/np.sqrt(np.sum(np.square(im_for_compr2, dtype='int64')))
+    result = np.sum(h1*h2)
+    return result
+    
+    
+if __name__ == "__main__":
+    main()
