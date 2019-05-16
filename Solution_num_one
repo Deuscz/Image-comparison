@@ -19,8 +19,8 @@ def get_files(path):
     return files
     
 def compare(img1, img2):
-    image1 = Image.open(img1).convert('RGB').resize((128, 128), Image.ANTIALIAS)
-    image2 = Image.open(img2).convert('RGB').resize((128, 128), Image.ANTIALIAS)
+    image1 = Image.open(img1).resize((128, 128), Image.ANTIALIAS)
+    image2 = Image.open(img2).resize((128, 128), Image.ANTIALIAS)
     im_for_compr1 = image1.histogram()
     im_for_compr2 = image2.histogram()
     h1 = im_for_compr1/np.sqrt(np.sum(np.square(im_for_compr1, dtype='int64')))
